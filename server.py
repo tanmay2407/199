@@ -1,14 +1,16 @@
+# importing elements
 import socket
 from threading import Thread
 import random
-
+# making a server
 server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+# making and binding ipaddress and port
 ip = '127.0.0.1'
 port = 8000
 server.bind((ip, port))
-
+# running the server maybe :)
 server.listen()
-
+# creating list of client name messages and question answer
 clients = []
 messages = []
 questions = [
@@ -17,8 +19,10 @@ questions = [
   "what is 0+1? \n a) 1 \n b) 2 \n c) 3 \n d) 4"
 ]
 answers = ["c","c","a"]
+# number of question 
 numberOfQ = len(questions)
 
+# funtions
 def getRandomQuestion(conn):
   randomIndex = random.randint(0, len(questions)-1)
   randomQuestion = questions[randomIndex]
@@ -50,6 +54,7 @@ def clientThread(conn, addr):
     except:
       continue
 
+
 def removeQuestion(index):
   questions.pop(index)
   answers.pop(index)
@@ -58,6 +63,7 @@ def remove(conn):
   if conn in clients:
     clients.remove(conn)
 
+# making sending and reciving of question in a loop 
 while True:
   conn, addr = server.accept()
   conn.send(input("message here").encode("utf-8"))
